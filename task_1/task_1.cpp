@@ -5,11 +5,13 @@
 using namespace std;
 
 void line(){
-    cout << "---------------------" << endl;
+    cout << "-------------------" << endl;
 }
 
 void value_print(float x, float y){
-    cout << "|" << setw(5) << fixed << setprecision(1) << x << setw(5) << "|" << fixed << setprecision(2) << y << setw(5) << "|" << endl;
+    /*cout << "|" << setw(5) << fixed << setprecision(1) << x << setw(5) << "|" << fixed << setprecision(2) << y << setw(5) << "|" << endl;*/
+    cout << "|" << setw(6) << fixed << setprecision(1) << x << " |"
+         << setw(8) << fixed << setprecision(2) << y << " |" << endl; 
 }
 
 int main() {
@@ -18,7 +20,8 @@ int main() {
 
     cout << "Таблица значений функции:" << endl;
     line();
-    cout << "|" << setw(5) << "x" << setw(5) << "|" << setw(5) << "y" << setw(5) << "|" << endl;
+    /*cout << "|" << setw(6) << "x" << "|" << setw(8) << "y" << "|" << endl;*/
+    cout << "|   x   |    y    |" << endl;
     line();
 
     for(x; x <= -2; x++){
@@ -40,7 +43,7 @@ int main() {
         y = -x + 9;
         value_print(x, y);
     }
-
+    line();
 
     return 0;
 }
