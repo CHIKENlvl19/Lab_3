@@ -245,41 +245,6 @@ vector<int> nMinusOneDecomposition(int n) {
     return nDecomposition;
 }
 
-/*bool MillerTest(int n, vector<int>& nDecomposition, int t){
-    
-    vector<int> random_aj;
-    for(int i = 0; i < t; i++)
-    {
-        random_aj.push_back(2 + rand() % (n - 2));
-    }
-
-    for(int i = 0; i <= t; i++)
-    {
-        if( aXmodPviaLog(random_aj[i], n-1, n) != 1 )
-        {
-            return false;
-        }
-    }
-
-    int faliure_count = 0;
-    for(auto q_i : nDecomposition)
-    {
-        for(auto a_j : random_aj){
-            if( aXmodPviaLog( a_j, (n-1)/q_i, n ) == 1 )
-            {
-                faliure_count++;
-            }
-        }
-    }
-
-    if(faliure_count == t)
-    {
-        return false;
-    }
-
-    return true;
-}*/
-
 bool MillerTest(int n, vector<int>& nDecomposition, int t) {
     vector<int> random_aj;
     for (int i = 0; i < t; ++i) {
