@@ -22,25 +22,30 @@ int main() {
     cout << "|   x   |    y    |" << endl;
     line();
 
-    for(x; x <= -2; x++){
+    for(x; x <= -2; x++)
+    {
         y = -0.992 * pow(( x + 3.5), 2) + 2.2;
         value_print(x, y);
     }
 
-    for(x; x <= 2; x++){
+    for(x; x <= 2; x++)
+    {
         y = -sqrt(4 - x*x);
         value_print(x, y);
     }
 
-    for(x; x <= 8; x++){
+    for(x; x <= 8; x++)
+    {
         y = ( log(x) / log(2) ) - 1;
         value_print(x, y);
     }
 
-    for(x; x <= 10; x++){
+    for(x; x <= 10; x++)
+    {
         y = -x + 9;
         value_print(x, y);
     }
+    
     line();
 
     return 0;

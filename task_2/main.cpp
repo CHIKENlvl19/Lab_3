@@ -324,18 +324,14 @@ int main() {
     cout << "Введите параметр надежности t (количество проверок): ";
     cin >> t;
     
-    // Генерация m и n
     vector<int> primes = EratosthenesSieve(500); // Таблица простых чисел до 500
         
-    
-    // Разложение n-1 на простые множители (кроме 2^k)
-    // Проверка простоты тестом Миллера
     int m = mGenerator(bits, primes);
     int n = nCalculation(m);
-    vector<int> decomposition = nMinusOneDecomposition(n);
-    bool isPrime = MillerTest(n, decomposition, t);
+    
+    vector<int> decomposition = nMinusOneDecomposition(n); // разложение n-1 = 2^k * q
+    bool isPrime = MillerTest(n, decomposition, t); // сам тест Миллера
         
-    // Вывод результатов
     cout << "Сгенерированное число n = " << n << endl;
     cout << "Разложение n-1 = " << n - 1 << ": ";
     for (int q : decomposition) {
