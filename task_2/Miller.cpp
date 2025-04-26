@@ -3,6 +3,7 @@
 #include <cmath>
 #include <time.h>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -229,8 +230,10 @@ vector<int> nMinusOneDecomposition(int n) {
 
     for(int i = 3; i <= sqrt(n_minus_one); i += 2)
     {
-        nDecomposition.push_back(i);
+        while(n_minus_one % i == 0){
+            nDecomposition.push_back(i);
         n_minus_one /= i;
+        }
     }
 
     if(n_minus_one > 1)
@@ -275,6 +278,30 @@ bool MillerTest(int n, vector<int>& nDecomposition, int t) {
     return true; // n вероятно простое
 }
 
+double EulersFunction(int n) {
+    if (n == 1) 
+    {
+        return 1;
+    }
+
+    double result = n;
+    for (int i = 2; i <= sqrt(n); ++i) 
+    {
+        if (n % i == 0) 
+        {
+            while (n % i == 0) n /= i;
+            result -= result / i;
+        }
+    }
+
+    if (n > 1)
+    {
+        result -= result / n;
+    }
+    
+    return result;
+}
+
 int main() {
     srand(time(NULL));
     
@@ -303,11 +330,16 @@ int main() {
         cout << q << " ";
     }
     cout << endl;
+
+    double phi_n_minus_1 = EulersFunction(n - 1); // Вычисляем φ(n-1)
+    double probability_error = (pow((phi_n_minus_1 / (n - 1)), t)) * 100.0; // Вероятность ошибки
     
     if (isPrime) {
-        cout << "Число " << n << " вероятно простое." << endl;
+        cout << "Число " << n << " вероятно простое с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
+        cout << "Вероятность ошибки: " << setprecision(2) << probability_error << "%" << endl;
     } else {
-        cout << "Число " << n << " составное." << endl;
+        cout << "Число " << n << " составное с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
+        cout << "Вероятность ошибки: " << setprecision(2) << probability_error << "%" << endl;
     }
     
     return 0;
