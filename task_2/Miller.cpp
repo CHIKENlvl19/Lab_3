@@ -35,16 +35,6 @@ vector<int> EratosthenesSieve(int n) {
     return primeNumbers;
 }
 
-ostream& operator << (ostream& out, vector<int> v) 
-{
-    for(auto n : v)
-    {
-        out << n << " ";
-    }
-
-    return out;
-}
-
 bool isPrime(int p){
     if (p % 2 == 0 || p % 3 == 0 || p <= 1)
     {
@@ -298,7 +288,7 @@ double EulersFunction(int n) {
     {
         result -= result / n;
     }
-    
+
     return result;
 }
 
@@ -306,8 +296,6 @@ int main() {
     srand(time(NULL));
     
     cout << "Тест Миллера для генерации и проверки простых чисел\n";
-        
-    // Ввод параметров
     int bits;
     cout << "Введите требуемый размер числа n в битах: ";
     cin >> bits;
@@ -316,7 +304,7 @@ int main() {
     cout << "Введите параметр надежности t (количество проверок): ";
     cin >> t;
     
-    vector<int> primes = EratosthenesSieve(500); // Таблица простых чисел до 500
+    vector<int> primes = EratosthenesSieve(500); // таблица простых чисел до 500
         
     int m = mGenerator(bits, primes);
     int n = nCalculation(m);
@@ -331,12 +319,11 @@ int main() {
     }
     cout << endl;
 
-    double phi_n_minus_1 = EulersFunction(n - 1); // Вычисляем φ(n-1)
-    double probability_error = (pow((phi_n_minus_1 / (n - 1)), t)) * 100.0; // Вероятность ошибки
+    double phi_n_minus_1 = EulersFunction(n - 1);
+    double probability_error = (pow((phi_n_minus_1 / (n - 1)), t)) * 100.0;
     
     if (isPrime) {
-        cout << "Число " << n << " вероятно простое с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
-        cout << "Вероятность ошибки: " << setprecision(2) << probability_error << "%" << endl;
+        cout << "Число " << n << " простое" << endl;
     } else {
         cout << "Число " << n << " составное с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
         cout << "Вероятность ошибки: " << setprecision(2) << probability_error << "%" << endl;
