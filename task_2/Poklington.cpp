@@ -39,10 +39,26 @@ int FGenerator(int bits, vector<int> primeNumbers) {
     int F_max = (1 << F_bits) - 1;
 
     int F = 1;
+    vector<int> FDecomposition;
 
-    // размер R = размер F, т.к. размер F = размер n + 1, а размер R = размер F - 1
-    
-    
+    while (true)
+    {
+        int q = primeNumbers[ rand() % primeNumbers.size() ];
+        int alpha = rand() % 10 + 1;
+
+        if(static_cast<long long>(F) * pow(q, alpha))
+        {
+            continue;
+        }
+
+        F *= pow(q, alpha);
+        FDecomposition.push_back(q);
+
+        if(F >= F_min && F <= F_max)
+        {
+            break;
+        }
+    }
 
     return F;
 }
@@ -59,7 +75,16 @@ int main() {
 
     srand(time(NULL));
 
-
+    cout << "Тест Миллера для генерации и проверки простых чисел\n";
+    int bits;
+    cout << "Введите требуемый размер числа n в битах: ";
+    cin >> bits;
+    
+    int t;
+    cout << "Введите параметр надежности t (количество проверок): ";
+    cin >> t;
+    
+    vector<int> primes = EratosthenesSieve(500); // таблица простых чисел до 500
 
     return 0;
 }
