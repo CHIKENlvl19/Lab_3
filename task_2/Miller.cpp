@@ -240,27 +240,34 @@ vector<int> nMinusOneDecomposition(int n) {
 
 bool MillerTest(int n, vector<int>& nDecomposition, int t) {
     vector<int> random_aj;
-    for (int i = 0; i < t; ++i) {
+    for (int i = 0; i < t; ++i) 
+    {
         random_aj.push_back(2 + rand() % (n - 2)); // Генерация a_j в диапазоне [2, n-1]
     }
 
     // Шаг 2: Проверка a_j^(n-1) ≡ 1 mod n
-    for (int a_j : random_aj) {
-        if (aXmodPviaLog(a_j, n - 1, n) != 1) {
+    for (int a_j : random_aj) 
+    {
+        if (aXmodPviaLog(a_j, n - 1, n) != 1) 
+        {
             return false; // n составное
         }
     }
 
     // Шаг 3: Проверка для каждого q_i
-    for (int q_i : nDecomposition) {
+    for (int q_i : nDecomposition) 
+    {
         bool all_fail = true;
-        for (int a_j : random_aj) {
-            if (aXmodPviaLog(a_j, (n - 1) / q_i, n) != 1) {
+        for (int a_j : random_aj) 
+        {
+            if (aXmodPviaLog(a_j, (n - 1) / q_i, n) != 1) 
+            {
                 all_fail = false;
                 break;
             }
         }
-        if (all_fail) { // Все a_j вернули 1 для этого q_i → n составное
+        if (all_fail) 
+        { // Все a_j вернули 1 для этого q_i → n составное
             return false;
         }
     }
@@ -314,7 +321,8 @@ int main() {
         
     cout << "Сгенерированное число n = " << n << endl;
     cout << "Разложение n-1 = " << n - 1 << ": ";
-    for (int q : decomposition) {
+    for (int q : decomposition) 
+    {
         cout << q << " ";
     }
     cout << endl;
@@ -322,7 +330,8 @@ int main() {
     double phi_n_minus_1 = EulersFunction(n - 1);
     double probability_error = (pow((phi_n_minus_1 / (n - 1)), t)) * 100.0;
     
-    if (isPrime) {
+    if (isPrime) 
+    {
         cout << "Число " << n << " простое" << endl;
     } else {
         cout << "Число " << n << " составное с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
