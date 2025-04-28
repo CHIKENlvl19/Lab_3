@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <time.h>
+#include <utility>
 
 using namespace std;
 
@@ -61,6 +62,43 @@ int FGenerator(int bits, vector<int> primeNumbers) {
     }
 
     return F;
+}
+
+pair< int, vector< pair<int, int> > > FGenerator(int bits, const vector<int>& primeNumbers) {
+    int F_bits = (bits / 2) + 1; // Размер F на 1 бит больше половины bits
+    int F_min = 1 << (F_bits - 1);
+    int F_max = (1 << F_bits) - 1;
+
+    int F = 1; // Используем long long для избежания переполнения
+    vector<pair<int, int>> FDecomposition; // (простое, степень)
+
+    while (true) {
+        int q = primeNumbers[rand() % primeNumbers.size()];
+        int alpha = rand() % 10 + 1;
+
+        // Вычисляем q^alpha
+        long long q_pow_alpha = 1;
+        for (int i = 0; i < alpha; ++i) {
+            q_pow_alpha *= q;
+        }
+
+        // Проверяем, не превысит ли F * q_pow_alpha F_max
+        long long new_F = F * q_pow_alpha;
+        if (new_F > F_max) {
+            continue; // Пропускаем, если слишком большое
+        }
+
+        F = new_F;
+        FDecomposition.push_back({q, alpha});
+
+        // Проверяем диапазон F
+        if (F >= F_min && F <= F_max) {
+            break;
+        }
+    }
+
+    // Возвращаем F и его разложение
+    return make_pair(F, FDecomposition);
 }
 
 int nCalculation (int F) {
