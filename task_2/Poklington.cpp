@@ -47,17 +47,19 @@ bool isPrime(int p){
 }
 
 int aXmodP (int a, int x, int p){ // быстрое возведение в степень по модулю
-    int degree = x % (p - 1); // применение теоремы Ферма
-    if(x == 0)
-    {
-        degree = 1;
-    }
-
+    
     int result = 1;
-    for(int i = 1; i <= degree; i++)
+
+    a %= p;
+    while (x > 0)
     {
-        result = result * a;
-        result %= p;
+        if (x % 2 == 1)
+        {
+            result = (result * a) % p;
+        }
+
+        a = (a * a) % p;
+        x /= 2;
     }
 
     return result;
@@ -70,6 +72,9 @@ vector<short> DecToBin(int number) {
         BinNumbers.push_back(number % 2);
         number /= 2;
     }
+
+    reverse(BinNumbers.begin(), BinNumbers.end());
+
     return BinNumbers;
 }
 
@@ -177,14 +182,15 @@ vector<int> EratosthenesSieve(int n) {
 
 
 pair< int, vector<int> > FGenerator(int bits, const vector<int>& primeNumbers) {
-    int F_bits = (bits / 2) + 1;
-    int F_min = 1 << (F_bits - 1);
-    int F_max = (1 << F_bits) - 1;
+    int F_min = 1 << (bits - 1);
+    int F_max = (1 << bits) - 1;
 
-    int F = 1;
-    vector<int> FDecomposition; 
+    int F = primeNumbers[rand() % primeNumbers.size()];
+    vector<int> FDecomposition;
+    FDecomposition.push_back(F);
 
-    while (true) {
+    while (true) 
+    {
         int q = primeNumbers[rand() % primeNumbers.size()];
         int alpha = rand() % 10 + 1;
 
@@ -204,6 +210,7 @@ pair< int, vector<int> > FGenerator(int bits, const vector<int>& primeNumbers) {
         if (F >= F_min && F <= F_max) {
             break;
         }
+
     }
 
     sort(FDecomposition.begin(), FDecomposition.end());
@@ -306,6 +313,11 @@ int main() {
     int F_bits = (bits / 2) + 1;
     int R = RGenerator(F_bits, F);
     int n = nCalculation(F, R);
+
+    if (F % 2 == 0 || R % 2 != 0 || gcd(F, R) != 1) {
+        cerr << "Ошибка: F четное или R нечетное или НОД(F,R) ≠ 1.\n";
+        exit(1);
+    }
 
     bool isPrime = PoklingtonTest(n, F, F_factors, R, t);
 
