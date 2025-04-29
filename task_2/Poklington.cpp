@@ -8,10 +8,12 @@
 
 using namespace std;
 
-int gcd(int a, int b) { // алгоритм Евклида для эффективного нахождения НОД
-    while( b!= 0)
+typedef long long ll;
+
+ll gcd(ll a, ll b) {
+    while (b != 0) 
     {
-        int r = b;
+        ll r = b;
         b = a % b;
         a = r;
     }
@@ -19,45 +21,15 @@ int gcd(int a, int b) { // алгоритм Евклида для эффекти
     return a;
 }
 
-bool isPrime(int p){
-    if (p % 2 == 0 || p % 3 == 0 || p <= 1)
-    {
-        return false;
-    }
-
-    int squareRootN = static_cast<int>(sqrt(p)) + 1;
-    int maxI = (squareRootN + 1) / 6;
-
-    for(int i = 1; i < maxI; i++)
-    {
-        int dividerMinusOne = 6 * i - 1;
-        int dividerPlusOne = 6 * i + 1;
-            
-        if (dividerMinusOne <= squareRootN) 
-        {
-            if (p % dividerMinusOne == 0) return false;
-        }
-        if (dividerPlusOne <= squareRootN) 
-        {
-            if (p % dividerPlusOne == 0) return false;
-        }
-    }
-
-    return true;
-}
-
-int aXmodP (int a, int x, int p){ // быстрое возведение в степень по модулю
-    
-    int result = 1;
-
+ll aXmodP(ll a, ll x, ll p) {
+    ll result = 1;
     a %= p;
-    while (x > 0)
+    while (x > 0) 
     {
         if (x % 2 == 1)
         {
             result = (result * a) % p;
         }
-
         a = (a * a) % p;
         x /= 2;
     }
@@ -65,99 +37,12 @@ int aXmodP (int a, int x, int p){ // быстрое возведение в ст
     return result;
 }
 
-vector<short> DecToBin(int number) {
-    vector<short> BinNumbers;
-    while (number != 0) 
-    {
-        BinNumbers.push_back(number % 2);
-        number /= 2;
-    }
-
-    reverse(BinNumbers.begin(), BinNumbers.end());
-
-    return BinNumbers;
-}
-
-int aXmodPviaLog(int a, int x, int p) {
-    if (x == 0) return 1 % p;
-    if (p == 1) return 0;
-
-    int maxPowerOfTwo = static_cast<int>(ceil(log2(x)));
-    if (pow(2, maxPowerOfTwo) < x) maxPowerOfTwo++;
-
-    vector<int> rowOfAs;
-    for (int i = 0; i <= maxPowerOfTwo; ++i) 
-    {
-        int exponent = 1 << i;
-        rowOfAs.push_back(aXmodP(a, exponent, p));
-    }
-
-    vector<short> BinX = DecToBin(x);
-
-    int result = 1;
-    for (int i = 0; i < static_cast<int>(BinX.size()); ++i)
-    {
-        if (i < static_cast<int>(rowOfAs.size()) && BinX[i] == 1) 
-        {
-            result = (result * rowOfAs[i]) % p;
-        }
-    }
-
-    return result;
-}
-
-template<typename T>
-bool FermatsCondition(T p, T& k) {
-    if(p <= 1 || (p % 2 == 0 && p != 2))
-    {
-        return false;
-    }
-
-    vector<int> aValues = {2, 3, 5, 7, 11, 13, 17, 19, 23};
-    if(k > static_cast<int>(aValues.size()))
-    {
-        k = aValues.size();
-    }
-
-    for(int i = 0; i < k; i++) {
-        T a = aValues[i];
-
-        if(a >= p) continue;
-
-        if(gcd(p, a) != 1)
-        {
-            return false;
-        }
-
-        if(aXmodP(a, p-1, p) != 1)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool modValidation(int p, int k) {
-    if(!isPrime(p)){
-        cerr << endl << "Модуль не является простым числом, попробуйте другой. Модуль обязательно должен быть > 0!" << endl;
-        exit(1);
-    }
-    
-    if(!FermatsCondition(p, k)){
-        cerr << endl << "Модуль не удовлетворяет условию Ферма, попробуйте другой." << endl;
-        exit(1);
-    }
-
-    return 1;
-}
-
-vector<int> EratosthenesSieve(int n) {
+vector<ll> EratosthenesSieve(int n) {
     vector<bool> isPrime(n + 1, true);
 
     isPrime[0] = isPrime[1] = false;
 
-    for(int i = 2; i * i <=  n; i++)
+    for(int i = 2; i * i <= n; i++)
     {
         if(isPrime[i])
         {
@@ -168,7 +53,7 @@ vector<int> EratosthenesSieve(int n) {
         }
     }
 
-    vector<int> primeNumbers;
+    vector<ll> primeNumbers;
     for(int i = 2; i <= n; i++)
     {
         if(isPrime[i])
@@ -181,80 +66,90 @@ vector<int> EratosthenesSieve(int n) {
 }
 
 
-pair< int, vector<int> > FGenerator(int bits, const vector<int>& primeNumbers) {
-    int F_min = 1 << (bits - 1);
-    int F_max = (1 << bits) - 1;
+pair< ll, vector<ll> > FGenerator(int bits, const vector<ll>& primeNumbers) {
+    int F_bits = (bits + 1) / 2; 
+    ll F_min = 1LL << (F_bits - 1);
+    ll F_max = (1LL << F_bits) - 1;
 
-    int F = primeNumbers[rand() % primeNumbers.size()];
-    vector<int> FDecomposition;
-    FDecomposition.push_back(F);
+    ll F = 1;
+    vector<ll> FDecomposition;
 
-    while (true) 
+    ll q_initial = primeNumbers[rand() % primeNumbers.size()];
+    int alpha_initial = rand() % 5 + 2;
+    ll q_initial_pow = 1;
+
+    for (int i = 0; i < alpha_initial; i++)
     {
-        int q = primeNumbers[rand() % primeNumbers.size()];
-        int alpha = rand() % 10 + 1;
+        q_initial_pow *= q_initial;
+    }
+    F = q_initial_pow;
+    FDecomposition.push_back(q_initial);
 
-        long long q_pow_alpha = 1;
-        for (int i = 0; i < alpha; ++i) {
+    int attempts = 0;
+    const int MAX_ATTEMPTS = 1000;
+
+    while (attempts++ < MAX_ATTEMPTS && F < F_min) 
+    {
+        ll q = primeNumbers[rand() % primeNumbers.size()];
+        int alpha = rand() % 5 + 2;
+
+        ll q_pow_alpha = 1;
+        for (int i = 0; i < alpha; ++i) 
+        {
             q_pow_alpha *= q;
         }
 
-        long long new_F = F * q_pow_alpha;
-        if (new_F > F_max) {
+        if (F * q_pow_alpha > F_max) 
+        {
             continue;
         }
 
-        F = new_F;
+        F *= q_pow_alpha;
         FDecomposition.push_back(q);
-
-        if (F >= F_min && F <= F_max) {
-            break;
-        }
-
     }
 
-    sort(FDecomposition.begin(), FDecomposition.end());
-    auto last = unique(FDecomposition.begin(), FDecomposition.end());
-    FDecomposition.erase(last, FDecomposition.end());
-
-    return make_pair(F, FDecomposition);
+    set<ll> unique_factors(FDecomposition.begin(), FDecomposition.end());
+    return {F, vector<ll>(unique_factors.begin(), unique_factors.end())};
 }
 
-int RGenerator(int F_bits, int F) {
+ll RGenerator(int F_bits, ll F) {
     int R_bits = F_bits - 1;
-    int R_min = 1 << (R_bits - 1);
-    int R_max = (1 << R_bits) - 1;
+    ll R_min = 1LL << (R_bits - 1);
+    ll R_max = (1LL << R_bits) - 1;
 
-    int R;
-    do {
-        R = (rand() % (R_max - R_min + 1)) + R_min;
+    for (int attempt = 0; attempt < 1000; attempt++)
+    {
+        ll R = ( rand() % (R_max - R_min + 1) ) + R_min;
 
         if (R % 2 != 0)
         {
             R++;
         }
-    } while (gcd(R, F) != 1 || R >= F);
 
-    return R;
-}
-
-int nCalculation (int F, int R) {
-    return R * F + 1;
-}
-
-bool PoklingtonTest(int n, int F, vector<int> F_factors, int R, int t) {
-    
-    if (F <= R || gcd(R, F) != 1) 
-    {
-        return false;
+        if (gcd(R, F) == 1 && R < F)
+        {
+            return R;
+        }
     }
 
-    vector<int> random_aj;
-    set<int> seen;
+    cerr << "Не удалось сгенерировать подходящее R." << endl;
+    exit(1);
+}
+
+bool PoklingtonTest(ll n, ll F, vector<ll> F_factors, int R, int t) {
+
+    if (F <= sqrt(n) - 1)
+    {
+        cerr << "Ошибка, F должно быть > sqrt(" << n <<  ") - 1" << endl;
+        return false; 
+    }
+
+    vector<ll> random_aj;
+    set<ll> seen;
 
     while (random_aj.size() < t) 
     {
-        int a = 2 + rand() % (n - 2);
+        ll a = 2 + rand() % (n - 2);
         if (seen.find(a) == seen.end()) 
         {
             random_aj.push_back(a);
@@ -262,20 +157,21 @@ bool PoklingtonTest(int n, int F, vector<int> F_factors, int R, int t) {
         }
     }
 
-    for (int a_j : random_aj)
+    for (ll a_j : random_aj)
     {
-        if (aXmodPviaLog(a_j, n - 1, n) != 1) 
+        if (aXmodP(a_j, n - 1, n) != 1) 
         {
             return false;
         }
     }
 
-    for (int q_i : F_factors) 
+    for (ll q_i : F_factors) 
     {
         bool all_one = true;
-        for (int a_j : random_aj) 
+        for (ll a_j : random_aj) 
         {
-            if (aXmodPviaLog(a_j, (n - 1) / q_i, n) != 1) 
+            ll x = (n - 1) / q_i;
+            if (aXmodP(a_j, x ,n) != 1) 
             {
                 all_one = false;
                 break;
@@ -303,27 +199,21 @@ int main() {
     cout << "Введите параметр надежности t (количество проверок): ";
     cin >> t;
     
-    vector<int> primes = EratosthenesSieve(500); // таблица простых чисел до 500
-    primes.erase(primes.begin());
+    vector<ll> primes = EratosthenesSieve(1 << (bits / 2)); // таблица простых чисел до 500
+ 
 
-    auto F_result = FGenerator(bits, primes);
-    int F = F_result.first;
-    vector<int> F_factors = F_result.second;
+    int F_bits = (bits + 1) / 2;
 
-    int F_bits = (bits / 2) + 1;
-    int R = RGenerator(F_bits, F);
-    int n = nCalculation(F, R);
+    auto [F, F_factors] = FGenerator(F_bits, primes);
 
-    if (F % 2 == 0 || R % 2 != 0 || gcd(F, R) != 1) {
-        cerr << "Ошибка: F четное или R нечетное или НОД(F,R) ≠ 1.\n";
-        exit(1);
-    }
+    ll R = RGenerator(F_bits, F);
+    ll n = R * F + 1;
 
     bool isPrime = PoklingtonTest(n, F, F_factors, R, t);
 
     cout << "Сгенерированное число n = " << n << endl;
     cout << "Разложение F = " << F << " (множители: ";
-    for (int q : F_factors) {
+    for (ll q : F_factors) {
         cout << q << " ";
     }
     cout << ")\nR = " << R << endl;
