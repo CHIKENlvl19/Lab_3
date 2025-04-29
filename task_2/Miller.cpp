@@ -334,7 +334,7 @@ int main() {
     {
         cout << "Число " << n << " простое" << endl;
     } else {
-        cout << "Число " << n << " составное с вероятностью " << setprecision(2) << 1 - probability_error << "%" << endl;
+        cout << "Число " << n << " составное" << endl;
         cout << "Вероятность ошибки: " << setprecision(2) << probability_error << "%" << endl;
     }
     
