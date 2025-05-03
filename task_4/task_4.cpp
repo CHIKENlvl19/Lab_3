@@ -36,6 +36,7 @@ int main() {
     int n, m;
     cin >> n >> m;
 
+    cout << "Введите числа для игры по порядку: ";
     vector<int> numbers(n);
     for (int i = 0; i < n; i++)
     {
