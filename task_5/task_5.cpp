@@ -44,10 +44,8 @@ float korrel(vector<float>coffee) {
 		Sum += i;
 	}
 	
-	float averageX = Sum / coffee.size(); //Среднее ариф х
-
-	
-	float averageY = ((1 + coffee.size()) / 2) * coffee.size(); //Среднее ариф у
+	float averageX = Sum / coffee.size(); // среднее температуры
+	float averageY = (coffee.size() - 1) / 2.0; // среднее времени
 
 	float Sumx = 0, Sumy = 0, Sumxy = 0;
 
