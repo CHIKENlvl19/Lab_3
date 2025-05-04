@@ -55,7 +55,7 @@ float korrel(vector<float>coffee) {
 		Sumy += ((i - averageY) * (i - averageY));
 	}
 
-	return (Sumxy / (sqrt(Sumx * Sumy)));
+	return -(Sumxy / (sqrt(Sumx * Sumy)));
 }
 
 int main() {
