@@ -182,7 +182,6 @@ int main() {
 
     vector <ll> primes = EratospeheneSieve(500);
 
-    ll q_size = (t + 1) / 2;
     ll q = generate_q(t);
 
     cout << "Выбранное q = " << q << endl;
