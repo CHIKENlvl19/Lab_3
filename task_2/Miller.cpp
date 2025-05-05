@@ -222,7 +222,7 @@ vector<int> nMinusOneDecomposition(int n) {
     {
         while(n_minus_one % i == 0){
             nDecomposition.push_back(i);
-        n_minus_one /= i;
+            n_minus_one /= i;
         }
     }
 

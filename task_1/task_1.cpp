@@ -24,7 +24,7 @@ int main() {
 
     for(x; x <= -2; x++)
     {
-        y = -0.992 * pow(( x + 3.5), 2) + 2.2;
+        y = -x*x - 7*x - 10;
         value_print(x, y);
     }
 
@@ -42,7 +42,7 @@ int main() {
 
     for(x; x <= 10; x++)
     {
-        y = -x + 9;
+        y = -2*x + 18;
         value_print(x, y);
     }
     

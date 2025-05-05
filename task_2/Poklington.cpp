@@ -165,13 +165,13 @@ bool PoklingtonTest(ll n, ll F, vector<ll> F_factors, int R, int t) {
         }
     }
 
-    for (ll q_i : F_factors) 
+    for (ll a_j : random_aj) 
     {
         bool all_one = true;
-        for (ll a_j : random_aj) 
+        for (ll q_i : F_factors) 
         {
             ll x = (n - 1) / q_i;
-            if (aXmodP(a_j, x ,n) != 1) 
+            if (aXmodP(a_j, x ,n) == 1) 
             {
                 all_one = false;
                 break;
@@ -179,11 +179,11 @@ bool PoklingtonTest(ll n, ll F, vector<ll> F_factors, int R, int t) {
         }
         if (all_one) 
         {
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 int main() {
